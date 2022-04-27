@@ -26,13 +26,24 @@ pipeline {
         }
         stage('test') {
             steps {
-                echo 'step  2'
+                echo 'testing...'
+                dir('worker'){
+                    sh 'mvn clean test'
+                }
             }
         }
         stage('package') {
             steps {
-                echo 'step  3'
+                echo 'package'
+                dir('worker'){
+                    sh 'mvn package -DskipTests'
+                }
             }
+        }
+    }
+    post{
+        always{
+            echo  'post always'
         }
     }
 }
