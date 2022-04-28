@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('build') {
             when{
-                changset '**/worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 echo 'building...'
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('test') {
             when{
-                changset '**/worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 echo 'testing...'
@@ -41,7 +41,7 @@ pipeline {
         stage('package') {
             when{
                 branch 'master'
-                changset '**/worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 echo 'package'
