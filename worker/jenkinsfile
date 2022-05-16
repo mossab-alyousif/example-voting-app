@@ -7,6 +7,9 @@ pipeline {
 
     stages {
         stage('build') {
+            when{
+                changeset '**/worker/**'
+            }
             steps {
                 echo 'building...'
                 dir('worker'){
@@ -25,14 +28,32 @@ pipeline {
             // }
         }
         stage('test') {
+            when{
+                changeset '**/worker/**'
+            }
             steps {
-                echo 'step  2'
+                echo 'testing...'
+                dir('worker'){
+                    sh 'mvn clean test'
+                }
             }
         }
         stage('package') {
-            steps {
-                echo 'step  3'
+            when{
+                branch 'master'
+                changeset '**/worker/**'
             }
+            steps {
+                echo 'package'
+                dir('worker'){
+                    sh 'mvn package -DskipTests'
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo  'post always'
         }
     }
 }
