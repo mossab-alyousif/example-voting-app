@@ -51,7 +51,6 @@ pipeline {
                 }
             }
         }
-    }
             stage('docker-package'){
             steps{
               echo 'Packaging worker app with docker'
@@ -70,4 +69,5 @@ pipeline {
             echo  'post always'
         }
     }
+}
 }
