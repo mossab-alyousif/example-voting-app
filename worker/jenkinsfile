@@ -7,6 +7,10 @@ pipeline {
 
     stages {
         stage('build') {
+
+            when{
+                changeset '**/worker/**'
+            }
             steps {
                 echo 'building...'
                 dir('worker'){
@@ -24,18 +28,30 @@ pipeline {
             //     }
             // }
         }
-        
-        stage('test') {
+         stage('test') {
+            when{
+                changeset '**/worker/**'
+            }
             steps {
-                echo 'step  2'
+                echo 'testing...'
+                dir('worker'){
+                    sh 'mvn clean test'
+                }
             }
         }
         stage('package') {
+            when{
+                branch 'master'
+                changeset '**/worker/**'
+            }
             steps {
-                echo 'step  3'
+                echo 'package'
+                dir('worker'){
+                    sh 'mvn package -DskipTests'
+                }
             }
         }
-          
+    }
             stage('docker-package'){
             steps{
               echo 'Packaging worker app with docker'
@@ -48,6 +64,10 @@ pipeline {
               }
             }
         }
-        
+               
+    post{
+        always{
+            echo  'post always'
+        }
     }
 }
