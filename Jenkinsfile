@@ -63,11 +63,10 @@ pipeline {
               }
             }
         }
-               
+    }     
     post{
         always{
             echo  'post always'
         }
     }
-}
 }
