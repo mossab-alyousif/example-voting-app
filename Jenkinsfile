@@ -153,10 +153,10 @@ pipeline {
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerhublogin') {
             // hago el Build con el Dockerfile
-            def workerImage = docker.build("lrbono/worker:v${env.BUILD_NUMBER}", "./worker")
+            def workerImage = docker.build("mossabalhariri/worker:v${env.BUILD_NUMBER}", "./worker")
             workerImage.push()
             // Publico en Dockerhub
-            workerImage.push("${env.BRANCH_NAME}")
+            workerImage.push("master")
           }
         }
 
@@ -173,9 +173,9 @@ pipeline {
         echo 'Packaging vote app with docker'
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerhublogin') {
-            def workerImage = docker.build("lrbono/vote:v${env.BUILD_ID}", "./vote")
+            def workerImage = docker.build("mossabalhariri/vote:latest", "./vote")
             workerImage.push()
-            workerImage.push("${env.BRANCH_NAME}")
+            workerImage.push("master")
           }
         }
 
@@ -192,9 +192,9 @@ pipeline {
         echo 'Packaging result app with docker'
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerhublogin') {
-            def workerImage = docker.build("lrbono/result:v${env.BUILD_ID}", "./result")
+            def workerImage = docker.build("mossabalhariri/result:latest", "./result")
             workerImage.push()
-            workerImage.push("${env.BRANCH_NAME}")
+            workerImage.push("master")
           }
         }
 
